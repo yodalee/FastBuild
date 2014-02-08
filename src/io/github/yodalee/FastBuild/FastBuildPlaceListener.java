@@ -32,6 +32,7 @@ public class FastBuildPlaceListener implements Listener {
     ItemStack stackInHand = event.getItemInHand();
     int stackAmount = stackInHand.getAmount();
     int n,i;
+    int reallyBuild;
 
     //get n
     if (plugin.playerN.containsKey(player)) {
@@ -40,14 +41,15 @@ public class FastBuildPlaceListener implements Listener {
       n = 1;
     }
     n = Math.min(n, stackAmount);
+    reallyBuild = 1;
 
-    stackInHand.setAmount(stackInHand.getAmount() -1);
     //build
     if (face != null) {
       for ( i = 0 ; i < n-1 ; i++) {
         nextBlock = block.getRelative(face);
         if (checkReplaceable(nextBlock)) {
           nextBlock.setType(stackInHand.getType());
+          reallyBuild = reallyBuild + 1;
           block = nextBlock;
         } else {
           break;
@@ -57,7 +59,7 @@ public class FastBuildPlaceListener implements Listener {
 
     // reduce itemStack in hand
     if (player.getGameMode() != GameMode.CREATIVE) {
-      stackInHand.setAmount(stackInHand.getAmount() - n);
+      stackInHand.setAmount(stackInHand.getAmount() - reallyBuild);
       player.setItemInHand(stackInHand);
     } 
   }
