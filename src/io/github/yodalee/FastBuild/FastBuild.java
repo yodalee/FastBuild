@@ -7,6 +7,7 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.entity.Player;
+import org.bukkit.configuration.file.FileConfiguration;
 
 /* fastbuild plugin by Yosdalee
  */
@@ -14,9 +15,13 @@ import org.bukkit.entity.Player;
 public class FastBuild extends JavaPlugin{
   private final FastBuildPlaceListener placeListener = new FastBuildPlaceListener(this);
   public Map<Player, Integer> playerN = new HashMap<Player, Integer>();
+  public boolean isDebug = false;
 
   @Override
   public void onEnable(){
+    this.saveDefaultConfig();
+    this.isDebug = this.getConfig().getBoolean("debug");
+	 
     //Register events
     PluginManager pm = getServer().getPluginManager();
     pm.registerEvents(placeListener, this);
