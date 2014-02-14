@@ -1,12 +1,14 @@
-package io.github.yodalee.FastBuild;
+package io.github.yodalee.FastBuild.commands;
+
+import io.github.yodalee.FastBuild.FastBuild;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-class FastBuildSetnCmd implements CommandExecutor {
-  public FastBuild plugin;
+public class FastBuildSetnCmd implements CommandExecutor {
+  private FastBuild plugin;
   public FastBuildSetnCmd(FastBuild instance) {
     plugin = instance;
   }

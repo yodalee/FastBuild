@@ -1,4 +1,6 @@
-package io.github.yodalee.FastBuild;
+package io.github.yodalee.FastBuild.listeners;
+
+import io.github.yodalee.FastBuild.FastBuild;
 
 import java.lang.Math;
 
@@ -22,7 +24,8 @@ public class FastBuildPlaceListener implements Listener {
     return !block.getType().isSolid();
   }
 
-  @EventHandler
+  @SuppressWarnings("deprecation")
+@EventHandler
   public void onPlace(BlockPlaceEvent event) {
     Player player = event.getPlayer();
 	Block block = event.getBlockPlaced();
@@ -30,9 +33,14 @@ public class FastBuildPlaceListener implements Listener {
     BlockFace face = againstBlock.getFace(block);
     Block nextBlock = null;
     ItemStack stackInHand = event.getItemInHand();
+
     int stackAmount = stackInHand.getAmount();
     int n,i;
     int reallyBuild;
+
+    if (plugin.isDebug) {
+      String msg = "";
+    } 
 
     //get n
     if (plugin.playerN.containsKey(player)) {
@@ -40,7 +48,9 @@ public class FastBuildPlaceListener implements Listener {
     } else {
       n = 1;
     }
-    n = Math.min(n, stackAmount);
+    if (player.getGameMode() != GameMode.CREATIVE) {
+      n = Math.min(n, stackAmount);
+    } 
     reallyBuild = 1;
 
     //build
@@ -49,6 +59,7 @@ public class FastBuildPlaceListener implements Listener {
         nextBlock = block.getRelative(face);
         if (checkReplaceable(nextBlock)) {
           nextBlock.setType(stackInHand.getType());
+          nextBlock.setData(block.getData());
           reallyBuild = reallyBuild + 1;
           block = nextBlock;
         } else {
