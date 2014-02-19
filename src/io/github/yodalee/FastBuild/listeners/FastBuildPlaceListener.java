@@ -25,8 +25,11 @@ public class FastBuildPlaceListener implements Listener {
   }
 
   @SuppressWarnings("deprecation")
-@EventHandler
-  public void onPlace(BlockPlaceEvent event) {
+  @EventHandler
+  public void onPlace(final BlockPlaceEvent event) {
+    if (!event.canBuild()) {
+      return;
+    } 
     Player player = event.getPlayer();
 	Block block = event.getBlockPlaced();
     Block againstBlock = event.getBlockAgainst();
@@ -38,16 +41,12 @@ public class FastBuildPlaceListener implements Listener {
     int n,i;
     int reallyBuild;
 
-    if (plugin.isDebug) {
-      String msg = "";
+    if (plugin.isDebug) { 
+      player.sendMessage("Place a block: " + block.getType().toString());
     } 
 
     //get n
-    if (plugin.playerN.containsKey(player)) {
-      n = plugin.playerN.get(player);
-    } else {
-      n = 1;
-    }
+    n = plugin.getn(player);
     if (player.getGameMode() != GameMode.CREATIVE) {
       n = Math.min(n, stackAmount);
     } 
