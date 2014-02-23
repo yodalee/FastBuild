@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Location;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.Listener;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -36,30 +37,48 @@ public class FastBuildBreakListener implements Listener {
     face = event.getBlockFace().getOppositeFace();
   }
 
+  private boolean durabilityRandom(int durabilityLevel){
+    return (Math.random() < 1.0/(durabilityLevel+1));
+  }
+
   @SuppressWarnings("deprecation")
   private boolean reduceDurability(ItemStack tool, Player player){
     //short currentValue = tool.getDurability();
     //tool.setDurability(currentValue);
     //check player using pickaxe, shovel, or axe, these tool add durability 1
-    if (toolList.contains(tool.getTypeId())) {
-      player.sendMessage("using tool " + tool.toString());
-      tool.setDurability((short)(tool.getDurability()+1));
-      if (tool.getDurability() >= tool.getType().getMaxDurability()) {
-        return false;
-      } 
-    } 
-    //check player using sword these tool add durability 2
-    else if (swordList.contains(tool.getTypeId())) {
-      player.sendMessage("using sword " + tool.toString());
-      tool.setDurability((short)(tool.getDurability()+2));
-      if (tool.getDurability() >= tool.getType().getMaxDurability()) {
-        return false;
-      } 
-    } 
-    else {
-      player.sendMessage("using others " + tool.toString());
+    boolean isTool = false;
+    int unbreakingLevel = 0;
+    if (toolList.contains(tool.getTypeId()) || swordList.contains(tool.getTypeId())) {
+      isTool = true;
     }
-    return true;
+
+    if (isTool) {
+      unbreakingLevel = tool.getEnchantmentLevel(Enchantment.DURABILITY);
+      //check if contains unbreaking enchant
+      if (plugin.isDebug) {
+        String str = "using tool " + tool.toString();
+        if (unbreakingLevel != 0) {
+          str += " with unbreaking level " + unbreakingLevel;
+        } 
+        player.sendMessage(str);
+      }
+      // reduce durability
+      if (durabilityRandom(unbreakingLevel)) {
+        if (toolList.contains(tool.getTypeId())) {
+          tool.setDurability((short)(tool.getDurability()+1));
+        } else {
+          tool.setDurability((short)(tool.getDurability()+2));
+        }
+      } 
+      // check tool is OK
+      if (tool.getDurability() >= tool.getType().getMaxDurability()) {
+        return false;
+      } else {
+        return true;
+      }
+    } else {
+      return true;
+    }
   }
 
   @EventHandler
