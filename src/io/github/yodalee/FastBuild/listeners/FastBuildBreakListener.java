@@ -51,12 +51,17 @@ public class FastBuildBreakListener implements Listener {
 
   //generate drops collection with tool and block
   private Collection<ItemStack> getDrops(ItemStack tool, Block block) {
+    Collection<ItemStack> dropList = block.getDrops(tool);
     if (tool.getEnchantmentLevel(Enchantment.SILK_TOUCH) == 0) {
-      return(block.getDrops(tool));
+      return dropList;
     } else {
-      Collection<ItemStack> drops = new ArrayList<ItemStack>();
-      drops.add(new ItemStack(block.getType()));
-      return drops;
+      if (!dropList.isEmpty()) {
+        Collection<ItemStack> drops = new ArrayList<ItemStack>();
+        drops.add(new ItemStack(block.getType()));
+        return drops;
+      } else {
+        return dropList;
+      }
     }
   }
 
