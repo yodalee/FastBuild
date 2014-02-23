@@ -3,8 +3,11 @@ package io.github.yodalee.FastBuild.listeners;
 import io.github.yodalee.FastBuild.FastBuild;
 
 import java.lang.Math;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Iterator;
+import java.util.Collection;
 import org.apache.commons.lang.ArrayUtils;
 
 import org.bukkit.block.Block;
@@ -27,6 +30,7 @@ public class FastBuildBreakListener implements Listener {
     plugin = instance;
   }
   private BlockFace face;
+  // block ID of tools: shovel, pickaxe, axe and swords: sword
   int[] toolId = {270, 274, 257, 285, 278, 271, 275, 258, 286, 279, 269, 273, 256, 284, 277};
   int[] swordId = {268, 272, 267, 283, 276};
   private List<Integer> toolList = Arrays.asList(ArrayUtils.toObject(toolId));
@@ -37,7 +41,28 @@ public class FastBuildBreakListener implements Listener {
     face = event.getBlockFace().getOppositeFace();
   }
 
+  //create drops at block location
+  private void createDrops(Block block, Collection<ItemStack> drops){
+    Iterator<ItemStack> drop = drops.iterator();
+    while (drop.hasNext()) {
+      block.getWorld().dropItemNaturally(block.getLocation(), drop.next());
+    }
+  }
+
+  //generate drops collection with tool and block
+  private Collection<ItemStack> getDrops(ItemStack tool, Block block) {
+    if (tool.getEnchantmentLevel(Enchantment.SILK_TOUCH) == 0) {
+      return(block.getDrops(tool));
+    } else {
+      Collection<ItemStack> drops = new ArrayList<ItemStack>();
+      drops.add(new ItemStack(block.getType()));
+      return drops;
+    }
+  }
+
   private boolean durabilityRandom(int durabilityLevel){
+    // tool got 100/(level+1) % probability to reduce their durabilityLevel
+    // according to Minecraft Wiki
     return (Math.random() < 1.0/(durabilityLevel+1));
   }
 
@@ -95,18 +120,20 @@ public class FastBuildBreakListener implements Listener {
       player.sendMessage("Hit block: " + block.getType().toString() + " at face: " + face.getOppositeFace().toString());
     } 
 
-    boolean toolIsGood = true;
     for (int i = 0; i < n-1; i++) {
       nextBlock = block.getRelative(face);
       //currently only deal with same type block
       if (nextBlock.getType() == originType) {
+        Collection<ItemStack> drops = getDrops(tool, nextBlock);
         nextBlock.setType(Material.AIR);
         if (!isCreative) {
-          toolIsGood = reduceDurability(tool,player);
+          // drops
+          createDrops(nextBlock, drops);
+          // durability
+          if(!reduceDurability(tool,player)) {
+            break;
+          }
         }
-        if (!toolIsGood) {
-          break;
-        } 
       } else {
         break;
       }
