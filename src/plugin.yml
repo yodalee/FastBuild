@@ -7,7 +7,12 @@ commands:
   setn:
     description: set number n
     usage: "Usage: /setn number" 
-    permission: FastBuild.basic
+    permission: FastBuild.setn
+    permission-message: You don't have <permission>
+  togglePlaceMode:
+    description: toggle place mode(use in hand/in inventory)
+    usage: "Usage: /togglePlaceMode" 
+    permission: FastBuild.togglePlaceMode
     permission-message: You don't have <permission>
 permissions:
   FastBuild.*:
@@ -16,4 +21,7 @@ permissions:
       FastBuild.setn: true
   FastBuild.setn:
     description: Allows you to set n
+    default: true
+  FastBuild.togglePlaceMode:
+    description: Allows you to toggle place mode
     default: true

@@ -1,6 +1,7 @@
 package io.github.yodalee.FastBuild;
 
 import io.github.yodalee.FastBuild.commands.FastBuildSetnCmd;
+import io.github.yodalee.FastBuild.commands.FastBuildTogglePlaceCmd;
 import io.github.yodalee.FastBuild.listeners.FastBuildPlaceListener;
 import io.github.yodalee.FastBuild.listeners.FastBuildBreakListener;
 
@@ -20,6 +21,7 @@ public class FastBuild extends JavaPlugin{
   private final FastBuildPlaceListener placeListener = new FastBuildPlaceListener(this);
   private final FastBuildBreakListener breakListener = new FastBuildBreakListener(this);
   public Map<Player, Integer> playerN = new HashMap<Player, Integer>();
+  public Map<Player, Boolean> playerPlaceMode = new HashMap<Player, Boolean>();
   public boolean isDebug = false;
 
   public int getn(Player player){
@@ -29,6 +31,15 @@ public class FastBuild extends JavaPlugin{
       playerN.put(player, 1);
       return 1;
     }
+  }
+
+  public boolean getPlaceMode(Player player){
+    if (playerPlaceMode.containsKey(player)) {
+      return playerPlaceMode.get(player);
+    } else {
+      playerPlaceMode.put(player, false);
+      return false;
+    } 
   }
 
   @Override
@@ -43,6 +54,7 @@ public class FastBuild extends JavaPlugin{
 
     //register command handler
     getCommand("setn").setExecutor(new FastBuildSetnCmd(this));
+    getCommand("togglePlaceMode").setExecutor(new FastBuildTogglePlaceCmd(this));
 
     //Output log file
     PluginDescriptionFile pdfFile = this.getDescription();
