@@ -40,9 +40,13 @@ public class FastBuildPlaceListener implements Listener {
     int stackAmount = stackInHand.getAmount();
     int n,i;
     int reallyBuild;
+    boolean canBuild = block.getType().isSolid();
 
     if (plugin.isDebug) { 
-      player.sendMessage("Place a block: " + block.getType().toString());
+      player.sendMessage("Place a block: " + block.getType().toString() + " , canBuild = " + canBuild);
+    } 
+    if (!canBuild) {
+      return;
     } 
 
     //get n
