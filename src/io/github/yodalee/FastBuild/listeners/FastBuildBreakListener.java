@@ -30,11 +30,12 @@ public class FastBuildBreakListener implements Listener {
     plugin = instance;
   }
   private BlockFace face;
-  // block ID of tools: shovel, pickaxe, axe and swords: sword
-  int[] toolId = {270, 274, 257, 285, 278, 271, 275, 258, 286, 279, 269, 273, 256, 284, 277};
-  int[] swordId = {268, 272, 267, 283, 276};
-  private List<Integer> toolList = Arrays.asList(ArrayUtils.toObject(toolId));
-  private List<Integer> swordList = Arrays.asList(ArrayUtils.toObject(swordId));
+  // block ID of tools: axe, shovel and pickaxe
+  final int[] toolId = {270, 275, 258, 286, 279, 269, 273, 256, 284, 277, 270, 274, 257, 285, 278};
+  //swords: sword
+  final int[] swordId = {268, 272, 267, 283, 276};
+  final private List<Integer> toolList = Arrays.asList(ArrayUtils.toObject(toolId));
+  final private List<Integer> swordList = Arrays.asList(ArrayUtils.toObject(swordId));
 
   @EventHandler
   public void onInteract(final PlayerInteractEvent event){
@@ -120,7 +121,7 @@ public class FastBuildBreakListener implements Listener {
     ItemStack tool = player.getItemInHand();
 
     int n = plugin.getn(player);
-    boolean isCreative = player.getGameMode() == GameMode.CREATIVE;
+    boolean isCreative = (player.getGameMode() == GameMode.CREATIVE);
     if (plugin.isDebug) {
       player.sendMessage("Hit block: " + block.getType().toString() + " at face: " + face.getOppositeFace().toString());
     } 

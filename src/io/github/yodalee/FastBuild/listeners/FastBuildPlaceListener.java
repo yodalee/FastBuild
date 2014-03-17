@@ -68,7 +68,7 @@ public class FastBuildPlaceListener implements Listener {
     }
 
     // reduce itemStack in hand
-    if (player.getGameMode() != GameMode.CREATIVE) {
+    if (player.getGameMode() != GameMode.CREATIVE && block.getType() == stackInHand.getType()) {
       stackInHand.setAmount(stackInHand.getAmount() - reallyBuild);
       player.setItemInHand(stackInHand);
     } 
