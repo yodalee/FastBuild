@@ -8,14 +8,17 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Iterator;
 import java.util.Collection;
+
 import org.apache.commons.lang.ArrayUtils;
 
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.ExperienceOrb;
 import org.bukkit.entity.Player;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.Listener;
 import org.bukkit.event.EventHandler;
@@ -48,6 +51,44 @@ public class FastBuildBreakListener implements Listener {
     while (drop.hasNext()) {
       block.getWorld().dropItemNaturally(block.getLocation(), drop.next());
     }
+  }
+
+  //create random between a,b
+  private int getRandom(int a, int b){
+    return (int)(Math.random()*(b-a+1)+a);
+  }
+
+  //create exp at block location depends on block
+  private void createExps(Player player, Block block, Material mat){
+    World world = block.getWorld();
+    ExperienceOrb orb = null;
+    int exp;
+    switch (mat) {
+      case COAL_ORE:
+        exp = getRandom(0,2);
+        break;
+      case DIAMOND_ORE:
+      case EMERALD_ORE:
+        exp = getRandom(3,7);
+        break;
+      case LAPIS_ORE:
+      case QUARTZ_ORE:
+        exp = getRandom(2,5);
+        break;
+      case REDSTONE_ORE:
+        exp = getRandom(1,5);
+        break;
+      case MOB_SPAWNER:
+        exp = getRandom(15,23);
+        break;
+       default:
+    	 exp = 0;
+    	 break;
+    }
+    if (plugin.isDebug) {
+      player.sendMessage("break " + mat.toString() + " get exp: " + exp);
+    } 
+    ((ExperienceOrb)world.spawn(block.getLocation(), ExperienceOrb.class)).setExperience( exp );
   }
 
   //generate drops collection with tool and block
@@ -135,6 +176,8 @@ public class FastBuildBreakListener implements Listener {
         if (!isCreative) {
           // drops
           createDrops(nextBlock, drops);
+          // drop exp
+          createExps(player, nextBlock, originType);
           // durability
           if(!reduceDurability(tool,player)) {
             break;
