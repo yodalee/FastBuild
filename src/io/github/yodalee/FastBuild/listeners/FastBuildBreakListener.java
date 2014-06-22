@@ -87,8 +87,10 @@ public class FastBuildBreakListener implements Listener {
     }
     if (plugin.isDebug) {
       player.sendMessage("break " + mat.toString() + " get exp: " + exp);
-    } 
-    ((ExperienceOrb)world.spawn(block.getLocation(), ExperienceOrb.class)).setExperience( exp );
+    }
+    if (exp != 0) {
+      ((ExperienceOrb)world.spawn(block.getLocation(), ExperienceOrb.class)).setExperience( exp );	
+    }
   }
 
   //generate drops collection with tool and block
