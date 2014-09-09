@@ -14,30 +14,30 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.entity.Player;
 import org.bukkit.configuration.file.FileConfiguration;
 
-/* fastbuild plugin by Yosdalee
+/* fastbuild plugin by Yodalee
  */
 
 public class FastBuild extends JavaPlugin{
   private final FastBuildPlaceListener placeListener = new FastBuildPlaceListener(this);
   private final FastBuildBreakListener breakListener = new FastBuildBreakListener(this);
-  public Map<Player, Integer> playerN = new HashMap<Player, Integer>();
-  public Map<Player, Boolean> playerPlaceMode = new HashMap<Player, Boolean>();
+  public Map<String, Integer> playerN = new HashMap<String, Integer>();
+  public Map<String, Boolean> playerPlaceMode = new HashMap<String, Boolean>();
   public boolean isDebug = false;
 
   public int getn(Player player){
-    if (playerN.containsKey(player)) {
-      return playerN.get(player);
+    if (playerN.containsKey(player.getName())) {
+      return playerN.get(player.getName());
     } else {
-      playerN.put(player, 1);
+      playerN.put(player.getName(), 1);
       return 1;
     }
   }
 
   public boolean getPlaceMode(Player player){
-    if (playerPlaceMode.containsKey(player)) {
-      return playerPlaceMode.get(player);
+    if (playerPlaceMode.containsKey(player.getName())) {
+      return playerPlaceMode.get(player.getName());
     } else {
-      playerPlaceMode.put(player, false);
+      playerPlaceMode.put(player.getName(), false);
       return false;
     } 
   }

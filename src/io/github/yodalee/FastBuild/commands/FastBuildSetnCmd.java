@@ -46,7 +46,7 @@ public class FastBuildSetnCmd implements CommandExecutor {
           inputN = 64;
         } 
         // save input parameter to player hash
-        plugin.playerN.put(player, inputN);
+        plugin.playerN.put(player.getName(), inputN);
         player.sendMessage("set n to " + inputN);
       } catch (NumberFormatException ex) {
         player.sendMessage("Given number " + 
