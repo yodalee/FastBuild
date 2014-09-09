@@ -26,7 +26,7 @@ public class FastBuildTogglePlaceCmd implements CommandExecutor {
   }
 
   public void togglePlace(Player player){
-    boolean setMode = !plugin.getPlaceMode(player);
+    boolean setMode = !plugin.getPlaceMode(player.getName());
     plugin.playerPlaceMode.put(player.getName(), setMode);
     String str = "Your current setting is ";
     if (setMode) {

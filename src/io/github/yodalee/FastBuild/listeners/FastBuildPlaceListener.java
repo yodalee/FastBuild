@@ -50,7 +50,7 @@ public class FastBuildPlaceListener implements Listener {
     } 
 
     //get n
-    n = plugin.getn(player);
+    n = plugin.getn(player.getName());
     if (player.getGameMode() != GameMode.CREATIVE) {
       n = Math.min(n, stackAmount);
     } 

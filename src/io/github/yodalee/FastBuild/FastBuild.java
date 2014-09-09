@@ -24,20 +24,20 @@ public class FastBuild extends JavaPlugin{
   public Map<String, Boolean> playerPlaceMode = new HashMap<String, Boolean>();
   public boolean isDebug = false;
 
-  public int getn(Player player){
-    if (playerN.containsKey(player.getName())) {
-      return playerN.get(player.getName());
+  public int getn(String name){
+    if (playerN.containsKey(name)) {
+      return playerN.get(name);
     } else {
-      playerN.put(player.getName(), 1);
+      playerN.put(name, 1);
       return 1;
     }
   }
 
-  public boolean getPlaceMode(Player player){
-    if (playerPlaceMode.containsKey(player.getName())) {
-      return playerPlaceMode.get(player.getName());
+  public boolean getPlaceMode(String name){
+    if (playerPlaceMode.containsKey(name)) {
+      return playerPlaceMode.get(name);
     } else {
-      playerPlaceMode.put(player.getName(), false);
+      playerPlaceMode.put(name, false);
       return false;
     } 
   }
