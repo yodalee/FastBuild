@@ -9,15 +9,12 @@ import java.util.List;
 import java.util.Iterator;
 import java.util.Collection;
 
-import org.apache.commons.lang.ArrayUtils;
-
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.ExperienceOrb;
 import org.bukkit.entity.Player;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
-import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.Listener;
@@ -26,19 +23,30 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
-@SuppressWarnings("unused")
 public class FastBuildBreakListener implements Listener {
   public FastBuild plugin;
   public FastBuildBreakListener (FastBuild instance){
     plugin = instance;
   }
   private BlockFace face;
-  // block ID of tools: axe, shovel and pickaxe
-  final int[] toolId = {270, 275, 258, 286, 279, 269, 273, 256, 284, 277, 270, 274, 257, 285, 278};
+  // block ID of tools: axe, shovel, hoe and pickaxe
+  final Material[] toolEnum = {
+		  Material.WOOD_AXE, Material.STONE_AXE, Material.IRON_AXE, Material.GOLD_AXE, Material.DIAMOND_AXE,
+		  Material.WOOD_PICKAXE, Material.STONE_PICKAXE, Material.IRON_PICKAXE,
+		  Material.GOLD_PICKAXE, Material.DIAMOND_PICKAXE,
+		  Material.WOOD_SPADE, Material.STONE_SPADE, Material.IRON_SPADE,
+		  Material.GOLD_SPADE, Material.DIAMOND_SPADE,
+		  Material.WOOD_HOE, Material.STONE_HOE, Material.IRON_HOE, Material.GOLD_HOE, Material.DIAMOND_HOE,
+		  };
   //swords: sword
-  final int[] swordId = {268, 272, 267, 283, 276};
-  final private List<Integer> toolList = Arrays.asList(ArrayUtils.toObject(toolId));
-  final private List<Integer> swordList = Arrays.asList(ArrayUtils.toObject(swordId));
+  final Material[] swordEnum = {
+		  Material.WOOD_SWORD,
+		  Material.STONE_SWORD,
+		  Material.IRON_SWORD,
+		  Material.GOLD_SWORD,
+		  Material.DIAMOND_SWORD};
+  final private List<Material> toolList = Arrays.asList(toolEnum);
+  final private List<Material> swordList = Arrays.asList(swordEnum);
 
   @EventHandler
   public void onInteract(final PlayerInteractEvent event){
@@ -61,7 +69,6 @@ public class FastBuildBreakListener implements Listener {
   //create exp at block location depends on block
   private void createExps(Player player, Block block, Material mat){
     World world = block.getWorld();
-    ExperienceOrb orb = null;
     int exp;
     switch (mat) {
       case COAL_ORE:
@@ -115,14 +122,13 @@ public class FastBuildBreakListener implements Listener {
     return (Math.random() < 1.0/(durabilityLevel+1));
   }
 
-  @SuppressWarnings("deprecation")
   private boolean reduceDurability(ItemStack tool, Player player){
     //short currentValue = tool.getDurability();
     //tool.setDurability(currentValue);
     //check player using pickaxe, shovel, or axe, these tool add durability 1
     boolean isTool = false;
     int unbreakingLevel = 0;
-    if (toolList.contains(tool.getTypeId()) || swordList.contains(tool.getTypeId())) {
+    if (toolList.contains(tool.getType()) || swordList.contains(tool.getType())) {
       isTool = true;
     }
 
@@ -138,7 +144,7 @@ public class FastBuildBreakListener implements Listener {
       }
       // reduce durability
       if (durabilityRandom(unbreakingLevel)) {
-        if (toolList.contains(tool.getTypeId())) {
+        if (toolList.contains(tool.getType())) {
           tool.setDurability((short)(tool.getDurability()+1));
         } else {
           tool.setDurability((short)(tool.getDurability()+2));
@@ -161,7 +167,7 @@ public class FastBuildBreakListener implements Listener {
     Block block = event.getBlock();
     Block nextBlock = null;
     Material originType = block.getType();
-    ItemStack tool = player.getItemInHand();
+    ItemStack tool = player.getInventory().getItemInMainHand();
 
     int n = plugin.getn(player.getName());
     boolean isCreative = (player.getGameMode() == GameMode.CREATIVE);
