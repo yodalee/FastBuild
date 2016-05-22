@@ -11,8 +11,6 @@ import java.util.Map;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.entity.Player;
-import org.bukkit.configuration.file.FileConfiguration;
 
 /* fastbuild plugin by Yodalee
  */

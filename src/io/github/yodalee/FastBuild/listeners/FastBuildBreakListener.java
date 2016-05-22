@@ -17,7 +17,6 @@ import org.bukkit.entity.ExperienceOrb;
 import org.bukkit.entity.Player;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
-import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.Listener;
@@ -26,7 +25,6 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
-@SuppressWarnings("unused")
 public class FastBuildBreakListener implements Listener {
   public FastBuild plugin;
   public FastBuildBreakListener (FastBuild instance){
@@ -61,7 +59,6 @@ public class FastBuildBreakListener implements Listener {
   //create exp at block location depends on block
   private void createExps(Player player, Block block, Material mat){
     World world = block.getWorld();
-    ExperienceOrb orb = null;
     int exp;
     switch (mat) {
       case COAL_ORE:
@@ -161,7 +158,7 @@ public class FastBuildBreakListener implements Listener {
     Block block = event.getBlock();
     Block nextBlock = null;
     Material originType = block.getType();
-    ItemStack tool = player.getItemInHand();
+    ItemStack tool = player.getInventory().getItemInMainHand();
 
     int n = plugin.getn(player.getName());
     boolean isCreative = (player.getGameMode() == GameMode.CREATIVE);
