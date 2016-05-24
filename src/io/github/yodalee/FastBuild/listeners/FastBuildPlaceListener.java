@@ -3,6 +3,8 @@ package io.github.yodalee.FastBuild.listeners;
 import io.github.yodalee.FastBuild.FastBuild;
 
 import java.lang.Math;
+import java.util.Arrays;
+import java.util.List;
 
 import org.bukkit.GameMode;
 import org.bukkit.block.Block;
@@ -20,8 +22,23 @@ public class FastBuildPlaceListener implements Listener {
   public FastBuildPlaceListener (FastBuild instance){
     plugin = instance;
   }
+  final Material[] replaceableEnum = {
+    //isEmpty method
+    //Material.AIR
+	 Material.SNOW, Material.VINE,
+	 Material.WATER_LILY, Material.WEB,
+    Material.GRASS, Material.LONG_GRASS, Material.CROPS,
+    //isLiquid method
+    //Material.WATER, Material.STATIONARY_WATER, Material.LAVA, Material.STATIONARY_LAVA,
+    Material.YELLOW_FLOWER, Material.DEAD_BUSH, Material.RED_ROSE,
+    Material.MELON_STEM, Material.PUMPKIN_STEM,
+    Material.DRAGONS_BREATH, Material.FIRE,
+    
+  };
+  final private List<Material> replaceableList = Arrays.asList(replaceableEnum);
   public boolean checkReplaceable(Block block){
-    return !block.getType().isSolid();
+	  Material type = block.getType();
+	  return block.isEmpty() || block.isLiquid() || replaceableList.contains(type);
   }
 
   @SuppressWarnings("deprecation")
@@ -40,7 +57,7 @@ public class FastBuildPlaceListener implements Listener {
 
     int stackAmount = stackInHand.getAmount();
     int n,i;
-    int reallyBuild;
+    int reallyBuild = 1;
     boolean canBuild = block.getType().isSolid();
 
     if (plugin.isDebug) { 
@@ -54,9 +71,8 @@ public class FastBuildPlaceListener implements Listener {
     n = plugin.getn(player.getName());
     if (player.getGameMode() != GameMode.CREATIVE) {
       n = Math.min(n, stackAmount);
-    } 
-    reallyBuild = 1;
-
+    }
+    
     //build
     if (face != null) {
       for ( i = 0 ; i < n-1 ; i++) {
@@ -64,7 +80,7 @@ public class FastBuildPlaceListener implements Listener {
         if (checkReplaceable(nextBlock)) {
           nextBlock.setType(stackInHand.getType());
           nextBlock.setData(block.getData());
-          reallyBuild = reallyBuild + 1;
+          reallyBuild += 1;
           block = nextBlock;
         } else {
           break;
