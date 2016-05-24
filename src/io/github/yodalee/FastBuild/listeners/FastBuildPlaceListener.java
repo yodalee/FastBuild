@@ -5,16 +5,16 @@ import io.github.yodalee.FastBuild.FastBuild;
 import java.lang.Math;
 
 import org.bukkit.GameMode;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
-@SuppressWarnings("unused")
 public class FastBuildPlaceListener implements Listener {
   public FastBuild plugin;
   public FastBuildPlaceListener (FastBuild instance){
@@ -25,13 +25,14 @@ public class FastBuildPlaceListener implements Listener {
   }
 
   @SuppressWarnings("deprecation")
-  @EventHandler
+@EventHandler
   public void onPlace(final BlockPlaceEvent event) {
     if (!event.canBuild()) {
       return;
     } 
     Player player = event.getPlayer();
-	Block block = event.getBlockPlaced();
+    EquipmentSlot hand = event.getHand();
+    Block block = event.getBlockPlaced();
     Block againstBlock = event.getBlockAgainst();
     BlockFace face = againstBlock.getFace(block);
     Block nextBlock = null;
@@ -74,7 +75,12 @@ public class FastBuildPlaceListener implements Listener {
     // reduce itemStack in hand
     if (player.getGameMode() != GameMode.CREATIVE && block.getType() == stackInHand.getType()) {
       stackInHand.setAmount(stackInHand.getAmount() - reallyBuild);
-      player.setItemInHand(stackInHand);
+      PlayerInventory inventory = player.getInventory();
+      if (hand == EquipmentSlot.HAND) {
+        inventory.setItemInMainHand(stackInHand);
+      } else if (hand == EquipmentSlot.OFF_HAND) {
+    	 inventory.setItemInOffHand(stackInHand);
+      }
     } 
   }
 }
