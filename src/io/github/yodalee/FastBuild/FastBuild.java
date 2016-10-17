@@ -3,6 +3,7 @@ package io.github.yodalee.FastBuild;
 import io.github.yodalee.FastBuild.commands.FastBuildSetnCmd;
 import io.github.yodalee.FastBuild.commands.FastBuildTogglePlaceCmd;
 import io.github.yodalee.FastBuild.listeners.FastBuildPlaceListener;
+import io.github.yodalee.FastBuild.listeners.FastBuildPlayerQuitListener;
 import io.github.yodalee.FastBuild.listeners.FastBuildBreakListener;
 
 import java.util.HashMap;
@@ -18,6 +19,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class FastBuild extends JavaPlugin{
   private final FastBuildPlaceListener placeListener = new FastBuildPlaceListener(this);
   private final FastBuildBreakListener breakListener = new FastBuildBreakListener(this);
+  private final FastBuildPlayerQuitListener playerQuitListener = new FastBuildPlayerQuitListener(this);
   public Map<String, Integer> playerN = new HashMap<String, Integer>();
   public Map<String, Boolean> playerPlaceMode = new HashMap<String, Boolean>();
   public boolean isDebug = false;
@@ -49,6 +51,7 @@ public class FastBuild extends JavaPlugin{
     PluginManager pm = getServer().getPluginManager();
     pm.registerEvents(placeListener, this);
     pm.registerEvents(breakListener, this);
+    pm.registerEvents(playerQuitListener, this);
 
     //register command handler
     getCommand("setn").setExecutor(new FastBuildSetnCmd(this));
