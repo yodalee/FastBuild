@@ -1,6 +1,6 @@
 name: FastBuild
 main: io.github.yodalee.FastBuild.FastBuild
-version: 1.7.2
+version: 1.10.2
 description: fast build allow you to break/build at most 64 blocks on one click.
 author: yodalee
 commands:
