@@ -22,8 +22,8 @@ public class FastBuild extends JavaPlugin{
   private final FastBuildBreakListener breakListener = new FastBuildBreakListener(this);
   private final FastBuildPlayerQuitListener playerQuitListener = new FastBuildPlayerQuitListener(this);
   public class PlayerConfig {
-    public Integer n = 1;
-    public Boolean absolute = false;
+    public Integer[] n = {1, 1};
+    public Boolean[] abs_mode = {false, false};
     public Boolean also_use_inventory = false;
   };
   public boolean isDebug = false;
@@ -54,9 +54,8 @@ public class FastBuild extends JavaPlugin{
     // Register command handler
     FastBuildSetnCmd setn_cmd = new FastBuildSetnCmd(this);
     getCommand("setn").setExecutor(setn_cmd);
-    getCommand("setnx").setExecutor(setn_cmd);
-    getCommand("setny").setExecutor(setn_cmd);
-    getCommand("setnz").setExecutor(setn_cmd);
+    getCommand("setnh").setExecutor(setn_cmd);
+    getCommand("setnv").setExecutor(setn_cmd);
     getCommand("togglePlaceMode").setExecutor(new FastBuildTogglePlaceCmd(this));
 
     // Output log file

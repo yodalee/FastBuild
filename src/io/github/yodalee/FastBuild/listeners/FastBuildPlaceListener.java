@@ -69,7 +69,8 @@ public class FastBuildPlaceListener implements Listener {
     }
 
     //get n
-    n = plugin.getPlayer(player.getName()).n;
+    Integer axis = face == BlockFace.UP || face == BlockFace.DOWN? 1: 0;
+    n = plugin.getPlayer(player.getName()).n[axis];
     if (player.getGameMode() != GameMode.CREATIVE) {
       n = Math.min(n, stackAmount);
     }

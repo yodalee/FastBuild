@@ -9,17 +9,12 @@ commands:
     usage: "Usage: /setn number"
     permission: FastBuild.setn
     permission-message: You don't have <permission>
-  setnx:
+  setnh:
     description: TODO
-    usage: "Usage: /setn number"
+    usage: "Usage: /seth number"
     permission: FastBuild.setn
     permission-message: You don't have <permission>
-  setny:
-    description: TODO
-    usage: "Usage: /setn number"
-    permission: FastBuild.setn
-    permission-message: You don't have <permission>
-  setnz:
+  setnv:
     description: TODO
     usage: "Usage: /setn number"
     permission: FastBuild.setn
