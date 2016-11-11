@@ -1,6 +1,7 @@
 package io.github.yodalee.FastBuild.commands;
 
 import io.github.yodalee.FastBuild.FastBuild;
+import io.github.yodalee.FastBuild.FastBuild.PlayerConfig;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -25,15 +26,10 @@ public class FastBuildTogglePlaceCmd implements CommandExecutor {
     return true;
   }
 
-  public void togglePlace(Player player){
-    boolean setMode = !plugin.getPlaceMode(player.getName());
-    plugin.playerPlaceMode.put(player.getName(), setMode);
-    String str = "Your current setting is ";
-    if (setMode) {
-      str += "use in Inventory";
-    } else {
-      str += "use in hand";
-    }
+  private void togglePlace(Player player){
+    PlayerConfig p = plugin.getPlayer(player.getName());
+    p.also_use_inventory = !p.also_use_inventory;
+    String str = "Your current setting is use in" + (p.also_use_inventory? "inventory" : "hand");
     player.sendMessage(str);
   }
 }

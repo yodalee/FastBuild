@@ -21,6 +21,7 @@ public class FastBuildSetnCmd implements CommandExecutor {
       return false;
     }
     Player player = (Player)sender;
+    player.sendMessage(label);
     if (args.length <= 1) {
       setn(player, args);
       return true;
@@ -29,25 +30,14 @@ public class FastBuildSetnCmd implements CommandExecutor {
   }
 
   public void setn(Player player, String[] args){
+    FastBuild.PlayerConfig player_cfg = plugin.getPlayer(player.getName());
     if (args.length == 0) {
-      if (plugin.playerN.containsKey(player)) {
-        player.sendMessage("Your current setting is " + plugin.playerN.get(player));
-      } else {
-        player.sendMessage("Your current setting is 1");
-      }
+      player.sendMessage(String.format("Your current setting is %d", player_cfg.n));
     } else {
       try {
-        // parse input parameter
-        int inputN = Integer.parseInt(args[0]);
-        if (inputN <= 0 ) {
-          throw new NumberFormatException();
-        } 
-        if (inputN > 64) {
-          inputN = 64;
-        } 
-        // save input parameter to player hash
-        plugin.playerN.put(player.getName(), inputN);
-        player.sendMessage("set n to " + inputN);
+        Integer inputN = Math.min(Math.max(Integer.parseInt(args[0]), 1), 64);
+        player_cfg.n = inputN;
+        player.sendMessage("Set n to " + inputN);
       } catch (NumberFormatException ex) {
         player.sendMessage("Given number " + 
             args[0] + " is invalid number");

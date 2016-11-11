@@ -26,8 +26,8 @@ public class FastBuildPlaceListener implements Listener {
   final Material[] replaceableEnum = {
     //isEmpty method
     //Material.AIR
-	 Material.SNOW, Material.VINE,
-	 Material.WATER_LILY, Material.WEB,
+    Material.SNOW, Material.VINE,
+    Material.WATER_LILY, Material.WEB,
     Material.GRASS, Material.LONG_GRASS, Material.CROPS,
     //isLiquid method
     //Material.WATER, Material.STATIONARY_WATER, Material.LAVA, Material.STATIONARY_LAVA,
@@ -38,8 +38,8 @@ public class FastBuildPlaceListener implements Listener {
   };
   final private List<Material> replaceableList = Arrays.asList(replaceableEnum);
   public boolean checkReplaceable(Block block){
-	  Material type = block.getType();
-	  return block.isEmpty() || block.isLiquid() || replaceableList.contains(type);
+    Material type = block.getType();
+    return block.isEmpty() || block.isLiquid() || replaceableList.contains(type);
   }
 
   @SuppressWarnings("deprecation")
@@ -61,19 +61,19 @@ public class FastBuildPlaceListener implements Listener {
     int reallyBuild = 1;
     boolean canBuild = block.getType().isSolid();
 
-    if (plugin.isDebug) { 
+    if (plugin.isDebug) {
       player.sendMessage("Place a block: " + block.getType().toString() + " , canBuild = " + canBuild);
-    } 
+    }
     if (!canBuild) {
       return;
-    } 
+    }
 
     //get n
-    n = plugin.getn(player.getName());
+    n = plugin.getPlayer(player.getName()).n;
     if (player.getGameMode() != GameMode.CREATIVE) {
       n = Math.min(n, stackAmount);
     }
-    
+
     //build
     if (face != null) {
       for ( i = 0 ; i < n-1 ; i++) {
@@ -96,7 +96,7 @@ public class FastBuildPlaceListener implements Listener {
       if (hand == EquipmentSlot.HAND) {
         inventory.setItemInMainHand(stackInHand);
       } else if (hand == EquipmentSlot.OFF_HAND) {
-    	 inventory.setItemInOffHand(stackInHand);
+        inventory.setItemInOffHand(stackInHand);
       }
     } 
   }
