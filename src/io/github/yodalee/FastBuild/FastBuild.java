@@ -7,6 +7,7 @@ import io.github.yodalee.FastBuild.listeners.FastBuildPlayerQuitListener;
 import io.github.yodalee.FastBuild.listeners.FastBuildBreakListener;
 
 import java.util.HashMap;
+import java.util.Arrays;
 import java.util.Map;
 
 import org.bukkit.plugin.PluginDescriptionFile;
@@ -20,51 +21,51 @@ public class FastBuild extends JavaPlugin{
   private final FastBuildPlaceListener placeListener = new FastBuildPlaceListener(this);
   private final FastBuildBreakListener breakListener = new FastBuildBreakListener(this);
   private final FastBuildPlayerQuitListener playerQuitListener = new FastBuildPlayerQuitListener(this);
-  public Map<String, Integer> playerN = new HashMap<String, Integer>();
-  public Map<String, Boolean> playerPlaceMode = new HashMap<String, Boolean>();
+  public class PlayerConfig {
+    public Integer[] n = {1, 1};
+    public Boolean[] abs_mode = {false, false};
+    public Boolean also_use_inventory = false;
+  };
   public boolean isDebug = false;
+  private Map<String, PlayerConfig> players = new HashMap<String, PlayerConfig>();
 
-  public int getn(String name){
-    if (playerN.containsKey(name)) {
-      return playerN.get(name);
-    } else {
-      playerN.put(name, 1);
-      return 1;
+  public PlayerConfig getPlayer(String name){
+    if (!players.containsKey(name)) {
+      players.put(name, new PlayerConfig());
     }
+    return players.get(name);
   }
 
-  public boolean getPlaceMode(String name){
-    if (playerPlaceMode.containsKey(name)) {
-      return playerPlaceMode.get(name);
-    } else {
-      playerPlaceMode.put(name, false);
-      return false;
-    } 
+  public void playerQuit(String name){
+    players.remove(name);
   }
 
   @Override
   public void onEnable(){
     this.saveDefaultConfig();
     this.isDebug = this.getConfig().getBoolean("debug");
-	 
-    //Register events
+
+    // Register events
     PluginManager pm = getServer().getPluginManager();
     pm.registerEvents(placeListener, this);
     pm.registerEvents(breakListener, this);
     pm.registerEvents(playerQuitListener, this);
 
-    //register command handler
-    getCommand("setn").setExecutor(new FastBuildSetnCmd(this));
+    // Register command handler
+    FastBuildSetnCmd setn_cmd = new FastBuildSetnCmd(this);
+    getCommand("setn").setExecutor(setn_cmd);
+    getCommand("setnh").setExecutor(setn_cmd);
+    getCommand("setnv").setExecutor(setn_cmd);
     getCommand("togglePlaceMode").setExecutor(new FastBuildTogglePlaceCmd(this));
 
-    //Output log file
+    // Output log file
     PluginDescriptionFile pdfFile = this.getDescription();
-  	getLogger().info(pdfFile.getName() + " version " + 
+    getLogger().info(pdfFile.getName() + " version " +
         pdfFile.getVersion() + " enable.");
   }
   @Override
   public void onDisable(){
-    playerN.clear();
-  	getLogger().info("fastbuild plugin disable.");
+    players.clear();
+    getLogger().info("fastbuild plugin disable.");
   }
 }

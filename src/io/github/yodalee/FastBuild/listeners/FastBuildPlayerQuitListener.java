@@ -12,10 +12,9 @@ public class FastBuildPlayerQuitListener implements Listener {
   public FastBuildPlayerQuitListener (FastBuild instance){
     plugin = instance;
   }
-  
+
   @EventHandler
   public void onBreak(final PlayerQuitEvent event) {
-    Player player = event.getPlayer();
-    plugin.playerN.put(player.getName(), 1);
-  } 
+    plugin.playerQuit(event.getPlayer().getName());
+  }
 }

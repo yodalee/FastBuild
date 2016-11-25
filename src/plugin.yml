@@ -6,12 +6,22 @@ author: yodalee
 commands:
   setn:
     description: set number n
-    usage: "Usage: /setn number" 
+    usage: "Usage: /setn number"
+    permission: FastBuild.setn
+    permission-message: You don't have <permission>
+  setnh:
+    description: TODO
+    usage: "Usage: /seth number"
+    permission: FastBuild.setn
+    permission-message: You don't have <permission>
+  setnv:
+    description: TODO
+    usage: "Usage: /setn number"
     permission: FastBuild.setn
     permission-message: You don't have <permission>
   togglePlaceMode:
     description: toggle place mode(use in hand/in inventory)
-    usage: "Usage: /togglePlaceMode" 
+    usage: "Usage: /togglePlaceMode"
     permission: FastBuild.togglePlaceMode
     permission-message: You don't have <permission>
 permissions:
