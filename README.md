@@ -12,6 +12,10 @@ There are two youtube video that demo how this plugin do:
 
 FastBuild is open source and is available under the GNU General Public License v3.
 
+# Where to download:
+
+I add a compiled fastbuild.jar against to spigot-1.12.2.jar in plugin directory.
+
 # How to build plugin:
 
 1. Download Spigot server BuildTool.jar at [Download Spigot](https://hub.spigotmc.org/jenkins/job/BuildTools/)

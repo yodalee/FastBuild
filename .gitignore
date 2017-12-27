@@ -1,5 +1,5 @@
 *.swp
-*.jar
+spigot.jar
 /.project
 /.classpath
 /.settings
