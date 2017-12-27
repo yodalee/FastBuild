@@ -24,17 +24,16 @@ public class FastBuildPlaceListener implements Listener {
     plugin = instance;
   }
   final Material[] replaceableEnum = {
-    //isEmpty method
-    //Material.AIR
-    Material.SNOW, Material.VINE,
-    Material.WATER_LILY, Material.WEB,
-    Material.GRASS, Material.LONG_GRASS, Material.CROPS,
+    //isEmpty method:
+    // Material.AIR
     //isLiquid method
-    //Material.WATER, Material.STATIONARY_WATER, Material.LAVA, Material.STATIONARY_LAVA,
-    Material.YELLOW_FLOWER, Material.DEAD_BUSH, Material.RED_ROSE,
+	// Material.WATER, Material.STATIONARY_WATER, Material.LAVA, Material.STATIONARY_LAVA
+    Material.SNOW, Material.VINE, Material.WATER_LILY,
+    Material.WEB, Material.LONG_GRASS, Material.CROPS,
+    Material.DOUBLE_PLANT, Material.YELLOW_FLOWER,
+    Material.DEAD_BUSH, Material.RED_ROSE,
     Material.MELON_STEM, Material.PUMPKIN_STEM,
     Material.DRAGONS_BREATH, Material.FIRE,
-    
   };
   final private List<Material> replaceableList = Arrays.asList(replaceableEnum);
   public boolean checkReplaceable(Block block){
@@ -47,7 +46,7 @@ public class FastBuildPlaceListener implements Listener {
   public void onPlace(final BlockPlaceEvent event) {
     if (!event.canBuild()) {
       return;
-    } 
+    }
     Player player = event.getPlayer();
     EquipmentSlot hand = event.getHand();
     Block block = event.getBlockPlaced();
@@ -99,6 +98,6 @@ public class FastBuildPlaceListener implements Listener {
       } else if (hand == EquipmentSlot.OFF_HAND) {
         inventory.setItemInOffHand(stackInHand);
       }
-    } 
+    }
   }
 }
