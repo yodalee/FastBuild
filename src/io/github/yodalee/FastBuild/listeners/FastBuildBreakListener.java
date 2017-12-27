@@ -96,7 +96,7 @@ public class FastBuildBreakListener implements Listener {
       player.sendMessage("break " + mat.toString() + " get exp: " + exp);
     }
     if (exp != 0) {
-      ((ExperienceOrb)world.spawn(block.getLocation(), ExperienceOrb.class)).setExperience( exp );	
+      ((ExperienceOrb)world.spawn(block.getLocation(), ExperienceOrb.class)).setExperience( exp );
     }
   }
 
@@ -139,7 +139,7 @@ public class FastBuildBreakListener implements Listener {
         String str = "using tool " + tool.toString();
         if (unbreakingLevel != 0) {
           str += " with unbreaking level " + unbreakingLevel;
-        } 
+        }
         player.sendMessage(str);
       }
       // reduce durability
@@ -149,7 +149,7 @@ public class FastBuildBreakListener implements Listener {
         } else {
           tool.setDurability((short)(tool.getDurability()+2));
         }
-      } 
+      }
       // check tool is OK
       if (tool.getDurability() >= tool.getType().getMaxDurability()) {
         return false;
@@ -159,6 +159,18 @@ public class FastBuildBreakListener implements Listener {
     } else {
       return true;
     }
+  }
+
+  private boolean canContinue(Material originType, Material nextType) {
+	  if(originType == nextType) { return true; }
+	  if((originType == Material.GRASS && nextType == Material.DIRT) ||
+		  (originType == Material.DIRT && nextType == Material.GRASS)) {
+		 return true;
+	  }
+	  if(originType == Material.GLOWING_REDSTONE_ORE && nextType == Material.REDSTONE_ORE) {
+		 return true;
+	  }
+	  return false;
   }
 
   @EventHandler
@@ -174,12 +186,12 @@ public class FastBuildBreakListener implements Listener {
     boolean isCreative = (player.getGameMode() == GameMode.CREATIVE);
     if (plugin.isDebug) {
       player.sendMessage("Hit block: " + block.getType().toString() + " at face: " + face.getOppositeFace().toString());
-    } 
+    }
 
     for (int i = 0; i < n-1; i++) {
       nextBlock = block.getRelative(face);
       //currently only deal with same type block
-      if (nextBlock.getType() == originType) {
+      if (canContinue(originType, nextBlock.getType())) {
         Collection<ItemStack> drops = getDrops(tool, nextBlock);
         nextBlock.setType(Material.AIR);
         if (!isCreative) {
@@ -197,5 +209,5 @@ public class FastBuildBreakListener implements Listener {
       }
       block = nextBlock;
     }
-  } 
+  }
 }
