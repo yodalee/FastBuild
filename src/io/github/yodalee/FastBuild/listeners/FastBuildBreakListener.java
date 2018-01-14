@@ -86,7 +86,7 @@ public class FastBuildBreakListener implements Listener {
         exp = getRandom(1,5);
         break;
       case MOB_SPAWNER:
-        exp = getRandom(15,23);
+        exp = getRandom(15,43);
         break;
        default:
     	 exp = 0;
