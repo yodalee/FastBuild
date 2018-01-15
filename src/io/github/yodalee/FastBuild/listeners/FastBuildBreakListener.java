@@ -180,9 +180,13 @@ public class FastBuildBreakListener implements Listener {
     Block nextBlock = null;
     Material originType = block.getType();
     ItemStack tool = player.getInventory().getItemInMainHand();
-
     Integer axis = face == BlockFace.UP || face == BlockFace.DOWN? 1: 0;
-    int n = plugin.getPlayer(player.getName()).n[axis];
+
+    // ignore n setting if player is sneaking
+    int n = 1;
+    if(!player.isSneaking()) {
+		n = plugin.getPlayer(player.getName()).n[axis];
+    }
     boolean isCreative = (player.getGameMode() == GameMode.CREATIVE);
     if (plugin.isDebug) {
       player.sendMessage("Hit block: " + block.getType().toString() + " at face: " + face.getOppositeFace().toString());

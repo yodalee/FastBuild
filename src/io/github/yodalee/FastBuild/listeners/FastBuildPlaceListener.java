@@ -61,17 +61,21 @@ public class FastBuildPlaceListener implements Listener {
     boolean canBuild = block.getType().isSolid();
 
     if (plugin.isDebug) {
-      player.sendMessage("Place a block: " + block.getType().toString() + " , canBuild = " + canBuild);
+	  player.sendMessage("Place a block: " + block.getType().toString() + " , canBuild = " + canBuild);
     }
     if (!canBuild) {
-      return;
+	  return;
     }
 
-    //get n
     Integer axis = face == BlockFace.UP || face == BlockFace.DOWN? 1: 0;
-    n = plugin.getPlayer(player.getName()).n[axis];
+    
+    // ignore n setting if player is sneaking
+    n = 1;
+    if (!player.isSneaking()) {
+    	n = plugin.getPlayer(player.getName()).n[axis];
+    }
     if (player.getGameMode() != GameMode.CREATIVE) {
-      n = Math.min(n, stackAmount);
+    	n = Math.min(n, stackAmount);
     }
 
     //build
