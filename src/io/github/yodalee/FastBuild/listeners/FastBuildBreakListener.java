@@ -31,19 +31,19 @@ public class FastBuildBreakListener implements Listener {
   private BlockFace face;
   // block ID of tools: axe, shovel, hoe and pickaxe
   final Material[] toolEnum = {
-		  Material.WOOD_AXE, Material.STONE_AXE, Material.IRON_AXE, Material.GOLD_AXE, Material.DIAMOND_AXE,
-		  Material.WOOD_PICKAXE, Material.STONE_PICKAXE, Material.IRON_PICKAXE,
-		  Material.GOLD_PICKAXE, Material.DIAMOND_PICKAXE,
-		  Material.WOOD_SPADE, Material.STONE_SPADE, Material.IRON_SPADE,
-		  Material.GOLD_SPADE, Material.DIAMOND_SPADE,
-		  Material.WOOD_HOE, Material.STONE_HOE, Material.IRON_HOE, Material.GOLD_HOE, Material.DIAMOND_HOE,
+		  Material.WOODEN_AXE, Material.STONE_AXE, Material.IRON_AXE, Material.GOLDEN_AXE, Material.DIAMOND_AXE,
+		  Material.WOODEN_PICKAXE, Material.STONE_PICKAXE, Material.IRON_PICKAXE,
+		  Material.GOLDEN_PICKAXE, Material.DIAMOND_PICKAXE,
+		  Material.WOODEN_SHOVEL, Material.STONE_SHOVEL, Material.IRON_SHOVEL,
+		  Material.GOLDEN_SHOVEL, Material.DIAMOND_SHOVEL,
+		  Material.WOODEN_HOE, Material.STONE_HOE, Material.IRON_HOE, Material.GOLDEN_HOE, Material.DIAMOND_HOE,
 		  };
   //swords: sword
   final Material[] swordEnum = {
-		  Material.WOOD_SWORD,
+		  Material.WOODEN_SWORD,
 		  Material.STONE_SWORD,
 		  Material.IRON_SWORD,
-		  Material.GOLD_SWORD,
+		  Material.GOLDEN_SWORD,
 		  Material.DIAMOND_SWORD};
   final private List<Material> toolList = Arrays.asList(toolEnum);
   final private List<Material> swordList = Arrays.asList(swordEnum);
@@ -79,13 +79,13 @@ public class FastBuildBreakListener implements Listener {
         exp = getRandom(3,7);
         break;
       case LAPIS_ORE:
-      case QUARTZ_ORE:
+      case NETHER_QUARTZ_ORE:
         exp = getRandom(2,5);
         break;
       case REDSTONE_ORE:
         exp = getRandom(1,5);
         break;
-      case MOB_SPAWNER:
+      case SPAWNER:
         exp = getRandom(15,43);
         break;
        default:
@@ -165,12 +165,9 @@ public class FastBuildBreakListener implements Listener {
 	  if(originType == nextType) { return true; }
 	  if((originType == Material.GRASS && nextType == Material.DIRT) ||
 		  (originType == Material.DIRT && nextType == Material.GRASS)) {
-		 return true;
+		  return true;
 	  }
-	  if(originType == Material.GLOWING_REDSTONE_ORE && nextType == Material.REDSTONE_ORE) {
-		 return true;
-	  }
-	  return false;
+	 return false;
   }
 
   @EventHandler

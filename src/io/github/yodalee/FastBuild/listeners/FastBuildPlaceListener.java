@@ -27,13 +27,18 @@ public class FastBuildPlaceListener implements Listener {
     //isEmpty method:
     // Material.AIR
     //isLiquid method
-	// Material.WATER, Material.STATIONARY_WATER, Material.LAVA, Material.STATIONARY_LAVA
-    Material.SNOW, Material.VINE, Material.WATER_LILY,
-    Material.WEB, Material.LONG_GRASS, Material.CROPS,
-    Material.DOUBLE_PLANT, Material.YELLOW_FLOWER,
-    Material.DEAD_BUSH, Material.RED_ROSE,
-    Material.MELON_STEM, Material.PUMPKIN_STEM,
-    Material.DRAGONS_BREATH, Material.FIRE,
+    // Material.WATER, Material.STATIONARY_WATER, Material.LAVA, Material.STATIONARY_LAVA
+    Material.SNOW,
+    // Flower
+    Material.DANDELION, Material.POPPY, Material.BLUE_ORCHID, Material.ALLIUM, Material.AZURE_BLUET,
+    Material.RED_TULIP, Material.ORANGE_TULIP, Material.WHITE_TULIP, Material.PINK_TULIP, 
+    Material.OXEYE_DAISY, Material.SUNFLOWER, Material.LILAC,
+    // Other
+    Material.VINE, Material.COBWEB,
+    Material.GRASS, Material.TALL_GRASS,
+    Material.SEAGRASS, Material.TALL_SEAGRASS,
+    Material.DEAD_BUSH, Material.MELON_STEM, Material.PUMPKIN_STEM,
+    Material.DRAGON_BREATH, Material.FIRE,
   };
   final private List<Material> replaceableList = Arrays.asList(replaceableEnum);
   public boolean checkReplaceable(Block block){
@@ -41,7 +46,6 @@ public class FastBuildPlaceListener implements Listener {
     return block.isEmpty() || block.isLiquid() || replaceableList.contains(type);
   }
 
-  @SuppressWarnings("deprecation")
 @EventHandler
   public void onPlace(final BlockPlaceEvent event) {
     if (!event.canBuild()) {
@@ -84,7 +88,7 @@ public class FastBuildPlaceListener implements Listener {
         nextBlock = block.getRelative(face);
         if (checkReplaceable(nextBlock)) {
           nextBlock.setType(stackInHand.getType());
-          nextBlock.setData(block.getData());
+          nextBlock.setBlockData(block.getBlockData());
           reallyBuild += 1;
           block = nextBlock;
         } else {
